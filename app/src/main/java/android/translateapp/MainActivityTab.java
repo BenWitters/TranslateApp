@@ -1,5 +1,6 @@
 package android.translateapp;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import ben.translateapp.AddwordActivity;
 import ben.translateapp.R;
 
 public class MainActivityTab extends AppCompatActivity {
@@ -76,11 +82,37 @@ public class MainActivityTab extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (item.getItemId()) {
+            case R.id.action_add_word:
+                // User chose the "add Word" item, show the app add word UI...
 
-        return super.onOptionsItemSelected(item);
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("message");
+
+                myRef.child("name").setValue("Hello, World!");
+
+                DatabaseReference postsRef = myRef.child("posts");
+
+                DatabaseReference newPostRef = postsRef.push();
+                newPostRef.setValue("gracehop", "Announcing COBOL, a New Programming Language");
+                postsRef.push().setValue("alanisawesome", "The Turing Machine");
+
+                Intent intent = new Intent(this, AddwordActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.action_settings:
+                // User chose the "Settings" action, go to settings
+                Log.d("Hello", "Pushed");
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     /**

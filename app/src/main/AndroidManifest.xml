@@ -8,7 +8,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name="android.translateapp.MainActivityTab"
             android:label="@string/title_activity_main_tab"
@@ -18,6 +17,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+        <activity
+            android:name=".AddwordActivity"
+            android:label="@string/title_activity_addword"
+            android:parentActivityName="android.translateapp.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.translateapp.MainActivity" />
         </activity>
     </application>
 
