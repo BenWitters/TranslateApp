@@ -2,8 +2,6 @@ package android.translateapp;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -12,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +18,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import ben.translateapp.AddwordActivity;
 import ben.translateapp.R;
+import ben.translateapp.SettingActivity;
 
 public class MainActivityTab extends AppCompatActivity {
 
@@ -81,30 +76,20 @@ public class MainActivityTab extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //Checken op welk element de gebruiker geklikt heeft in de menutab
         switch (item.getItemId()) {
             case R.id.action_add_word:
-                // User chose the "add Word" item, show the app add word UI...
+                // De gebruiker heeft op 'Add Word' geklikt
 
-
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("message");
-
-                myRef.child("name").setValue("Hello, World!");
-
-                DatabaseReference postsRef = myRef.child("posts");
-
-                DatabaseReference newPostRef = postsRef.push();
-                newPostRef.setValue("gracehop", "Announcing COBOL, a New Programming Language");
-                postsRef.push().setValue("alanisawesome", "The Turing Machine");
-
+                // Het starten van een nieuwe intent om de Add Word Activity te openen
                 Intent intent = new Intent(this, AddwordActivity.class);
                 startActivity(intent);
                 return true;
 
             case R.id.action_settings:
-                // User chose the "Settings" action, go to settings
-                Log.d("Hello", "Pushed");
+                // De gebruiker heeft op settings geklikt
+                Intent settingIntent = new Intent(this, SettingActivity.class);
+                startActivity(settingIntent);
                 return true;
 
             default:

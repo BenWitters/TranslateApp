@@ -17,44 +17,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:text="Nederlands"
         android:ems="10"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText2"
+        android:id="@+id/dutchWord"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         style="@android:style/TextAppearance.Material"
         android:singleLine="true"
         android:selectAllOnFocus="false"
-        />
+        android:hint="Nederlands" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Frans"
         android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/editText2"
+        android:id="@+id/frenchWord"
+        android:layout_below="@+id/dutchWord"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        style="@android:style/TextAppearance.Material" />
+        style="@android:style/TextAppearance.Material"
+        android:hint="Frans" />
 
     <Button
         android:text="Toevoegen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button3"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/frenchWord"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:backgroundTint="@color/colorPrimary"
         style="@android:style/TextAppearance.Material.Widget.Button"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light"
+        android:onClick="onClick" />
 
 </RelativeLayout>
