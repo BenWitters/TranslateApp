@@ -23,7 +23,7 @@
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
         <activity
-            android:name=".AddwordActivity"
+            android:name="android.translateapp.AddwordActivity"
             android:label="@string/title_activity_addword"
             android:parentActivityName="android.translateapp.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -32,7 +32,7 @@
                 android:value="android.translateapp.MainActivity" />
         </activity>
         <activity
-            android:name=".SettingActivity"
+            android:name="android.translateapp.SettingActivity"
             android:label="@string/title_activity_setting"
             android:parentActivityName="android.translateapp.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

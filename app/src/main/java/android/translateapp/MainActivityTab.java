@@ -3,6 +3,7 @@ package android.translateapp;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -10,17 +11,28 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ListView;
 import android.widget.TextView;
 
-import ben.translateapp.AddwordActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import ben.translateapp.R;
-import ben.translateapp.SettingActivity;
 
 public class MainActivityTab extends AppCompatActivity {
 
@@ -58,8 +70,42 @@ public class MainActivityTab extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
+        //DAMON LOOP
 
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        Words word = new Words();
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+               for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    //Getting the data from snapshot
+                  //  Words word = postSnapshot.getValue(Words.class);
+
+                    Log.v("E_VALUE", "Data :" + dataSnapshot.getValue());
+
+                    //Adding it to a string
+                 //  String string = "Dutchword: "+ word.getDutchWord() + "\n Frenchword: "+ word.getFrenchWord()  +"\n\n";
+
+
+                    //Displaying it on textview
+                  //  textViewWords.setText(string);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
     }
+
+
 
 
     @Override
@@ -160,6 +206,7 @@ public class MainActivityTab extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
+            System.out.println("TEST");
             switch (position) {
                 case 0:
                     return "Mijn woorden";

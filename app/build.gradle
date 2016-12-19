@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '24.0.3'
     defaultConfig {
         applicationId "ben.translateapp"
         minSdkVersion 14
@@ -17,6 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions{
+        exclude 'META-INF/LICENSE'
+    exclude 'META-INF/LICENSE-FIREBASE.txt'
+    exclude 'META-INF/NOTICE'
+
+}
+
 }
 
 dependencies {

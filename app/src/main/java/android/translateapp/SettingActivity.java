@@ -1,4 +1,4 @@
-package ben.translateapp;
+package android.translateapp;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ben.translateapp.R;
 
 public class SettingActivity extends AppCompatActivity {
     ListView listView ;
