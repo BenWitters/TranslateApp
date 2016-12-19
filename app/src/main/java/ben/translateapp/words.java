@@ -4,7 +4,7 @@ package ben.translateapp;
  * Created by yaron on 18/12/16.
  */
 
-public class Words {
+class Words {
     public String DutchWord;
     public String FrenchWord;
     public String UserID;
@@ -16,5 +16,6 @@ public class Words {
         this.DutchWord = DutchWord;
         this.FrenchWord = FrenchWord;
         this.UserID = UserID;
+
     }
 }
