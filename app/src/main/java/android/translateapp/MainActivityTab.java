@@ -18,9 +18,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import ben.translateapp.AddwordActivity;
 import ben.translateapp.R;
-import ben.translateapp.SettingActivity;
 
 public class MainActivityTab extends AppCompatActivity {
 

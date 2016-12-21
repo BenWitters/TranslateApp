@@ -1,4 +1,4 @@
-package ben.translateapp;
+package android.translateapp;
 
 /**
  * Created by yaron on 18/12/16.
