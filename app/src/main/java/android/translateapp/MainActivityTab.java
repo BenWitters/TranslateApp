@@ -1,6 +1,7 @@
 package android.translateapp;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,25 +78,23 @@ public class MainActivityTab extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
-        Words word = new Words();
+        final Words word = new Words();
 
+        final List<String> listWords = new ArrayList<String>();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.v("TRANSLATE","New value detected, snapshot children: " + Long.toString(dataSnapshot.child("words").getChildrenCount()) );
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : dataSnapshot.child("words").getChildren()) {
 
                     //Getting the data from snapshot
-                    //  Words word = postSnapshot.getValue(Words.class);
+                    Words word = postSnapshot.getValue(Words.class);
+                    //  Log.v("E_VALUE", word.DutchWord + " => " + word.FrenchWord);
 
-                    Log.v("E_VALUE", "Data :" + dataSnapshot.getValue());
+                    listWords.add(word.DutchWord);
+                    listWords.add(word.FrenchWord);
 
-                    //Adding it to a string
-                    //  String string = "Dutchword: "+ word.getDutchWord() + "\n Frenchword: "+ word.getFrenchWord()  +"\n\n";
-
-
-                    //Displaying it on textview
-                    //  textViewWords.setText(string);
                 }
             }
 
@@ -103,6 +103,9 @@ public class MainActivityTab extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
         });
+
+
+
     }
 
 

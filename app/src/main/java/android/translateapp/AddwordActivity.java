@@ -79,7 +79,7 @@ public class AddwordActivity extends AppCompatActivity {
             //Woord toevoegen aan de database
             ref.child("words").push().setValue(oneWord);
 
-            Toast.makeText(this, "Woord opgeslaan!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Woord opgeslagen!", Toast.LENGTH_SHORT).show();
 
             //Leegmaken van de velden
             mNederlands.setText("");
