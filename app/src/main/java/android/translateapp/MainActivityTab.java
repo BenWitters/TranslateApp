@@ -87,15 +87,18 @@ public class MainActivityTab extends AppCompatActivity {
                 Log.v("TRANSLATE","New value detected, snapshot children: " + Long.toString(dataSnapshot.child("words").getChildrenCount()) );
 
                 for (DataSnapshot postSnapshot : dataSnapshot.child("words").getChildren()) {
-
+                    List<String> listSubWords = new ArrayList<String>();
                     //Getting the data from snapshot
                     Words word = postSnapshot.getValue(Words.class);
-                    //  Log.v("E_VALUE", word.DutchWord + " => " + word.FrenchWord);
+                    listSubWords.add(word.UserID);
+                    listSubWords.add(word.DutchWord);
+                    listSubWords.add(word.FrenchWord);
 
-                    listWords.add(word.DutchWord);
-                    listWords.add(word.FrenchWord);
-
+                  //  Log.v("E_VALUE",postSnapshot.getKey());
+                    listWords.add(listSubWords.toString());
+                    
                 }
+                Log.v("E_VALUE",listWords.toString());
             }
 
             @Override
