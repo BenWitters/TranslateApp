@@ -90,13 +90,14 @@ public class MainActivityTab extends AppCompatActivity {
                     List<String> listSubWords = new ArrayList<String>();
                     //Getting the data from snapshot
                     Words word = postSnapshot.getValue(Words.class);
+                    listSubWords.add(postSnapshot.getKey());
                     listSubWords.add(word.UserID);
                     listSubWords.add(word.DutchWord);
                     listSubWords.add(word.FrenchWord);
 
                   //  Log.v("E_VALUE",postSnapshot.getKey());
                     listWords.add(listSubWords.toString());
-                    
+
                 }
                 Log.v("E_VALUE",listWords.toString());
             }
@@ -106,9 +107,6 @@ public class MainActivityTab extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
         });
-
-
-
     }
 
 
