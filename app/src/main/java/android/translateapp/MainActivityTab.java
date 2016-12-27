@@ -1,6 +1,7 @@
 package android.translateapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +56,7 @@ public class MainActivityTab extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
@@ -90,16 +92,21 @@ public class MainActivityTab extends AppCompatActivity {
                     List<String> listSubWords = new ArrayList<String>();
                     //Getting the data from snapshot
                     Words word = postSnapshot.getValue(Words.class);
-                    listSubWords.add(postSnapshot.getKey());
-                    listSubWords.add(word.UserID);
-                    listSubWords.add(word.DutchWord);
-                    listSubWords.add(word.FrenchWord);
 
+
+                        listSubWords.add(postSnapshot.getKey());
+                        listSubWords.add(word.UserID);
+                        listSubWords.add(word.DutchWord);
+                        listSubWords.add(word.FrenchWord);
+                        listWords.add(listSubWords.toString());
+//                       Log.v("E_VALUE", listSubWords.get(1));
                   //  Log.v("E_VALUE",postSnapshot.getKey());
-                    listWords.add(listSubWords.toString());
+
 
                 }
                 Log.v("E_VALUE",listWords.toString());
+
+
             }
 
             @Override
@@ -210,7 +217,7 @@ public class MainActivityTab extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            System.out.println("TEST");
+
             switch (position) {
                 case 0:
                     return "Mijn woorden";
@@ -222,4 +229,6 @@ public class MainActivityTab extends AppCompatActivity {
             return null;
         }
     }
+
+
 }

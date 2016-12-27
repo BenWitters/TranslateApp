@@ -9,13 +9,60 @@
     tools:context="ben.translateapp.android.translateapp.SettingActivity"
     tools:showIn="@layout/activity_setting">
 
+    <RadioGroup android:id ="@+id/rdbGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton android:id="@+id/rdbUserOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User 1"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        style="@style/Widget.AppCompat.ListView"
-        android:layout_alignParentBottom="true"
-        android:footerDividersEnabled="true">
-    </ListView>
+        <RadioButton android:id="@+id/rdbUserTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User 2"
+            android:layout_below="@+id/rdbUserOne"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:text="Ik wens notificaties te ontvangen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chkNotification"
+        android:layout_alignBottom="@+id/button4"
+        android:checked="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="58dp" />
+
+    <Button
+        android:text="Wijzigingen opslaan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="173dp"
+        android:id="@+id/button4"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:text="Kies de gebruiker:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp"
+        android:textSize="20sp" />
+
+
+
+
 </RelativeLayout>

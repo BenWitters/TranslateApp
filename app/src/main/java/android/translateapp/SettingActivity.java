@@ -1,7 +1,10 @@
 package android.translateapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.AdapterView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,53 +50,47 @@ public class SettingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get ListView object from xml
-        listView = (ListView) findViewById(R.id.list);
 
-        // Defined Array values to show in ListView
-        String[] values = new String[] { "Android List View",
-                "Adapter implementation",
-                "Simple List View In Android",
-                "Create List View Android",
-                "Android Example",
-                "List View Source Code",
-                "List View Array Adapter",
-                "Android Example List View"
-        };
 
         // Define a new Adapter
         // First parameter - Context
         // Second parameter - Layout for the row
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
+        SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        RadioGroup radioGroup;
+        radioGroup = (RadioGroup) findViewById(R.id.rdbGroup);
 
 
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
+        if(userSettings.getString("UserName","") == "1")
+        {
+            radioGroup.check(R.id.rdbUserOne);
+        }
+        else if(userSettings.getString("UserName","") == "2")
+        {
+            radioGroup.check(R.id.rdbUserTwo);
+        }
+        else
+        {
+            radioGroup.check(R.id.rdbUserOne);
+        }
 
-        // ListView Item Click Listener
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+        CheckBox checkBoxGroup;
+        checkBoxGroup = (CheckBox) findViewById(R.id.chkNotification);
 
-                // ListView Clicked item index
-                int itemPosition     = position;
 
-                // ListView Clicked item value
-                String  itemValue    = (String) listView.getItemAtPosition(position);
+        if(userSettings.getBoolean("Notifications", true) == true)
+        {
+            checkBoxGroup.setChecked(true);
+        }
 
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                        .show();
 
-            }
 
-        });
+
+
+
 
     }
 
@@ -102,6 +101,42 @@ public class SettingActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public void saveSettings() {
+        RadioGroup radioGroup;
+        radioGroup = (RadioGroup) findViewById(R.id.rdbGroup);
+        // get selected radio button from radioGroup
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        String selectedChk;
+        if(selectedId == 2131492983)
+        {
+            selectedChk = "1";
+        }
+        else
+        {
+            selectedChk = "2";
+        }
+
+        CheckBox checkBox = (CheckBox) findViewById(R.id.chkNotification);
+        Boolean notifications = false;
+        if(checkBox.isChecked()){
+            notifications = true;
+        }
+
+
+       SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = userSettings.edit();
+        prefEditor.putString("UserName", selectedChk);
+        prefEditor.putBoolean("Notifications", notifications);
+        prefEditor.apply();
+
+        this.finish();
+
+    }
+
+    public void onClick(View v) {
+         saveSettings();
     }
 
 }

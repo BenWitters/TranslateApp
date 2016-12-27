@@ -18,6 +18,7 @@ public class AddwordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addword);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -50,6 +51,8 @@ public class AddwordActivity extends AppCompatActivity {
     }
 
     public void addWord() {
+        SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+
         //Geklikt op add Word button
 
         TextView mNederlands;
@@ -71,7 +74,7 @@ public class AddwordActivity extends AppCompatActivity {
             DatabaseReference ref = database.getReference();
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-            userID = pref.getString("userID", null);
+            userID = userSettings.getString("UserName", "");
 
             //Klasse woord aanmaken
             Words oneWord = new Words(sNederlands, sFrans, userID);
@@ -91,6 +94,8 @@ public class AddwordActivity extends AppCompatActivity {
 
     public void onClick(View v) {
         addWord();
+
+
     }
 
 }
