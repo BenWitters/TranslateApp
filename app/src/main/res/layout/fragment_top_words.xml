@@ -5,8 +5,12 @@
     tools:context="android.translateapp.TopWordsFragment">
 
     <TextView
+        android:id="@+id/top_words"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fragment 3" />
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        />
+
 
 </FrameLayout>

@@ -5,8 +5,11 @@
     tools:context="android.translateapp.MyWordsFragment">
 
     <TextView
+        android:id="@+id/my_words"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fragment 1" />
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        />
 
 </FrameLayout>
