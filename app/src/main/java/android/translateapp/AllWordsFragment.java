@@ -33,6 +33,7 @@ public class AllWordsFragment extends Fragment {
     private SimpleAdapter simpleAdapter;
     //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
     private List<HashMap<String, String>> listItems = new ArrayList<>();
+    private HashMap<String, String> newWord = new HashMap<>();
 
 
 
@@ -71,7 +72,23 @@ public class AllWordsFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                // loop through database
+                for (DataSnapshot data: dataSnapshot.getChildren()) {
+                    // make new instance of the word class to work with the variables
+                    Words word = data.getValue(Words.class);
 
+
+                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
+                    newWord.put("French", word.FrenchWord);
+                    newWord.put("Dutch", word.DutchWord);
+
+
+                }
+                // add the lastAdded word in the list named listItems that expects a hashmap
+                listItems.add(newWord);
+
+                // A new word has been added, add it to the displayed list
+                simpleAdapter.notifyDataSetChanged();
             }
 
             @Override
