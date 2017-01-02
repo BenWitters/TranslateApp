@@ -3,6 +3,7 @@ package android.translateapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import ben.translateapp.R;
@@ -19,6 +20,7 @@ public class WordDetailActivity extends AppCompatActivity {
         Intent i = this.getIntent();
 
         setTitle(i.getExtras().getString("FRENCH_WORD"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         // get data that was passed
@@ -33,5 +35,13 @@ public class WordDetailActivity extends AppCompatActivity {
         frenchWord.setText(french);
         dutchWord.setText(dutch);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }
