@@ -1,14 +1,18 @@
 package android.translateapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +33,7 @@ public class AllWordsFragment extends Fragment {
     private SimpleAdapter simpleAdapter;
     //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
     private List<HashMap<String, String>> listItems = new ArrayList<>();
+
 
 
     @Override
@@ -66,28 +71,18 @@ public class AllWordsFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-                //Comment newComment = dataSnapshot.getValue(Comment.class);
-                String commentKey = dataSnapshot.getKey();
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-                String commentKey = dataSnapshot.getKey();
 
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
 
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-                String commentKey = dataSnapshot.getKey();
 
             }
 
@@ -108,9 +103,30 @@ public class AllWordsFragment extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_main_activity_tab, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootview.findViewById(R.id.tab_listview);
+        final ListView listView = (ListView) rootview.findViewById(R.id.tab_listview);
         listView.setAdapter(simpleAdapter);
 
+        // click on item, go to detail activity
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                Words word = new Words();
+                // get hashmap of the word that was clicked
+                HashMap h = listItems.get(position);
+
+                // get values out of the hashmap by the key
+                String fr = (String) h.get("French");
+                String nl = (String) h.get("Dutch");
+
+                // new intent, pass fr and nl word
+                Intent i = new Intent(getActivity(), WordDetailActivity.class);
+                i.putExtra("FRENCH_WORD", fr);
+                i.putExtra("DUTCH_WORD", nl);
+
+                // start detail activity
+                startActivity(i);
+            }
+        });
 
         return rootview;
     }
