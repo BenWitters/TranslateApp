@@ -47,10 +47,10 @@ public class MyWordsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-    //    SharedPreferences userSettings = this.getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
-      //  final String userID = userSettings.getString("UserName", "");
+        SharedPreferences userSettings = this.getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        final String userID = userSettings.getString("UserName", "");
         // database connection
-        final String userID = "1";
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
@@ -59,7 +59,8 @@ public class MyWordsFragment extends Fragment {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-
+                listItems.clear();
+                newWord.clear();
                 // loop through database
                 for (DataSnapshot data: dataSnapshot.getChildren()) {
                     // make new instance of the word class to work with the variables
@@ -76,13 +77,6 @@ public class MyWordsFragment extends Fragment {
                         wordMap.put("Dutch", word.DutchWord);
                         listItems.add(wordMap);
                     }
-                    else
-                    {
-                       // Log.v("E_VALUE", word.UserID);
-                    }
-
-
-
 
                     // add the wordMap in the list named listItems that expects a hashmap
 
@@ -95,7 +89,8 @@ public class MyWordsFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-
+                listItems.clear();
+                newWord.clear();
                 // loop through database
                 for (DataSnapshot data: dataSnapshot.getChildren()) {
                     // make new instance of the word class to work with the variables
