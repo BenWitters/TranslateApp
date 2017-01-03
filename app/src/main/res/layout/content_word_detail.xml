@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/content_word_detail"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+app:layout_behavior="@string/appbar_scrolling_view_behavior"
+tools:context="ben.translateapp.android.translateapp.WordDetailActivity"
+tools:showIn="@layout/activity_word_detail">
+
+<Button
+    android:text="Stem op dit woord"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="169dp"
+    android:id="@+id/btnVote"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:onClick="onClick" />
+
+</RelativeLayout>
+

@@ -96,8 +96,6 @@ public class AddwordActivity extends AppCompatActivity {
 
     public void onClick(View v) {
         addWord();
-
-
     }
 
 }

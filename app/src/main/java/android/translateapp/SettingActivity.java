@@ -105,7 +105,8 @@ public class SettingActivity extends AppCompatActivity {
         // get selected radio button from radioGroup
         int selectedId = radioGroup.getCheckedRadioButtonId();
         String selectedChk;
-        if(selectedId == 2131492986)
+        System.out.println(selectedId);
+        if(selectedId == 2131492987)
         {
             selectedChk = "1";
         }
