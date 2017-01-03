@@ -1,52 +1,176 @@
 package android.translateapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
+
+
 
 import ben.translateapp.R;
 
 
+
 public class MyWordsFragment extends Fragment {
 
-    private ArrayAdapter<String> mMyWordsAdapter;
+    private SimpleAdapter simpleAdapter;
+    //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
+    private List<HashMap<String, String>> listItems = new ArrayList<>();
+    private HashMap<String, String> newWord = new HashMap<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+    //    SharedPreferences userSettings = this.getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+      //  final String userID = userSettings.getString("UserName", "");
+        // database connection
+        final String userID = "1";
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
 
-        String[] data = {
-                "my words",
-                "my words",
-                "my words",
-                "my words"
+        // get data from database
+        ChildEventListener getItems = new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+
+                // loop through database
+                for (DataSnapshot data: dataSnapshot.getChildren()) {
+                    // make new instance of the word class to work with the variables
+                    Words word = data.getValue(Words.class);
+
+                    // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
+                    HashMap<String, String> wordMap = new HashMap<>();
+                  //  String userID = userSettings.getString("UserName", "");
+                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
+
+                    if(word.UserID.equals(userID))
+                    {
+                        wordMap.put("French", word.FrenchWord);
+                        wordMap.put("Dutch", word.DutchWord);
+                        listItems.add(wordMap);
+                    }
+                    else
+                    {
+                       // Log.v("E_VALUE", word.UserID);
+                    }
+
+
+
+
+                    // add the wordMap in the list named listItems that expects a hashmap
+
+
+                }
+                // A new word has been added, add it to the displayed list
+                simpleAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+
+                // loop through database
+                for (DataSnapshot data: dataSnapshot.getChildren()) {
+                    // make new instance of the word class to work with the variables
+                    Words word = data.getValue(Words.class);
+
+
+
+                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
+                    if(word.UserID.equals(userID)) {
+                        newWord.put("French", word.FrenchWord);
+                        newWord.put("Dutch", word.DutchWord);
+                    }
+
+                }
+                // add the lastAdded word in the list named listItems that expects a hashmap
+                listItems.add(newWord);
+
+                // A new word has been added, add it to the displayed list
+                simpleAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
         };
-        List<String> myWordsList = new ArrayList<String>(Arrays.asList(data));
+        ref.addChildEventListener(getItems);
 
-        // Now that we have some dummy forecast data, create an ArrayAdapter.
-        // The ArrayAdapter will take data from a source and use it to populate the ListView it's attached to.
-        mMyWordsAdapter =
-                new ArrayAdapter<String>(
-                        getActivity(), // The current context (this activity)
-                        R.layout.fragment_my_words, // The name of the layout ID.
-                        R.id.my_words, // The ID of the textview to populate.
-                        myWordsList);
+        // initialize the simpleadapter (needs 5 arguments: current instance, string with all the items(listitems),
+        // xml layout resource file where to put these items, keys from the hashmap and last the id's from the textviews to populate them
+        simpleAdapter = new SimpleAdapter(getActivity(), listItems, R.layout.fragment_my_words,
+                new String[]{"French", "Dutch"},
+                new int[] {R.id.my_words_french, R.id.my_words_dutch});
 
-        View rootView = inflater.inflate(R.layout.fragment_main_activity_tab, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_main_activity_tab, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.tab_listview);
-        listView.setAdapter(mMyWordsAdapter);
+        final ListView listView = (ListView) rootview.findViewById(R.id.tab_listview);
+        listView.setAdapter(simpleAdapter);
 
-        return rootView;
+        // click on item, go to detail activity
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                Words word = new Words();
+                // get hashmap of the word that was clicked
+                HashMap h = listItems.get(position);
+
+                // get values out of the hashmap by the key
+                String fr = (String) h.get("French");
+                String nl = (String) h.get("Dutch");
+
+                // new intent, pass fr and nl word
+                Intent i = new Intent(getActivity(), WordDetailActivity.class);
+                i.putExtra("FRENCH_WORD", fr);
+                i.putExtra("DUTCH_WORD", nl);
+
+                // start detail activity
+                startActivity(i);
+            }
+        });
+
+        return rootview;
     }
-
 }

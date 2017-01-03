@@ -1,6 +1,7 @@
 package android.translateapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -28,13 +29,13 @@ import java.util.StringTokenizer;
 
 import ben.translateapp.R;
 
+
 public class AllWordsFragment extends Fragment {
 
     private SimpleAdapter simpleAdapter;
     //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
     private List<HashMap<String, String>> listItems = new ArrayList<>();
     private HashMap<String, String> newWord = new HashMap<>();
-
 
 
     @Override

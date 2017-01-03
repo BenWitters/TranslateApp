@@ -5,11 +5,19 @@
     tools:context="android.translateapp.MyWordsFragment">
 
     <TextView
-        android:id="@+id/my_words"
+        android:id="@+id/my_words_french"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
         android:gravity="center_vertical"
-        />
-
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="3dp" />
+    <TextView
+        android:id="@+id/my_words_dutch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="15sp"
+        android:layout_marginBottom="10dp" />
 </FrameLayout>

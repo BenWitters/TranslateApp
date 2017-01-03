@@ -90,6 +90,8 @@ public class AddwordActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Gelieve beide velden in te vullen!", Toast.LENGTH_LONG).show();
         }
+
+        this.finish();
     }
 
     public void onClick(View v) {

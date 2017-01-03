@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,7 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,7 +60,7 @@ public class SettingActivity extends AppCompatActivity {
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
         SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-
+        Log.v("E_VALUE", userSettings.getString("UserName", ""));
         RadioGroup radioGroup;
         radioGroup = (RadioGroup) findViewById(R.id.rdbGroup);
 
@@ -86,12 +88,6 @@ public class SettingActivity extends AppCompatActivity {
             checkBoxGroup.setChecked(true);
         }
 
-
-
-
-
-
-
     }
 
     @Override
@@ -109,7 +105,7 @@ public class SettingActivity extends AppCompatActivity {
         // get selected radio button from radioGroup
         int selectedId = radioGroup.getCheckedRadioButtonId();
         String selectedChk;
-        if(selectedId == 2131492983)
+        if(selectedId == 2131492986)
         {
             selectedChk = "1";
         }
@@ -117,6 +113,7 @@ public class SettingActivity extends AppCompatActivity {
         {
             selectedChk = "2";
         }
+
 
         CheckBox checkBox = (CheckBox) findViewById(R.id.chkNotification);
         Boolean notifications = false;
@@ -130,9 +127,7 @@ public class SettingActivity extends AppCompatActivity {
         prefEditor.putString("UserName", selectedChk);
         prefEditor.putBoolean("Notifications", notifications);
         prefEditor.apply();
-
         this.finish();
-
     }
 
     public void onClick(View v) {
