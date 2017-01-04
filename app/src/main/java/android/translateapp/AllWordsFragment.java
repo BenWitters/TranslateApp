@@ -66,8 +66,7 @@ public class AllWordsFragment extends Fragment {
 
                     // add the wordMap in the list named listItems that expects a hashmap
                     listItems.add(wordMap);
-
-                }
+                   }
                 // A new word has been added, add it to the displayed list
                 simpleAdapter.notifyDataSetChanged();
 

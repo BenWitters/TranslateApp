@@ -14,7 +14,6 @@ public class Votes {
     public Votes(String UserID, String WordID){
         this.UserID = UserID;
         this.WordID = WordID;
-
     }
 
 }

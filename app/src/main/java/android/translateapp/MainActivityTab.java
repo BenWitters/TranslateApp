@@ -94,7 +94,7 @@ public class MainActivityTab extends AppCompatActivity {
 
 
                 }
-                Log.v("E_VALUE",listWords.toString());
+             //   Log.v("E_VALUE",listWords.toString());
 
 
             }

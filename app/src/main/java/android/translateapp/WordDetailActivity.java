@@ -7,18 +7,32 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import ben.translateapp.R;
 
 public class WordDetailActivity extends AppCompatActivity {
 
+    //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
+    private List<HashMap<String, String>> listItems = new ArrayList<>();
+    private HashMap<String, String> newWord = new HashMap<>();
 
-
+    // SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+    // private String userID = userSettings.getString("UserName", "");
+    private String userID = "1";
+    private Boolean alreadyVote = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +59,76 @@ public class WordDetailActivity extends AppCompatActivity {
         dutchWord.setText(dutch);
         wordKey.setText(wordkey);
 
+
+        // database connection
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        // get data from database
+        ChildEventListener getItems = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                // loop through database
+                for (DataSnapshot data: dataSnapshot.getChildren()) {
+                    // make new instance of the word class to work with the variables
+                    Votes vote = data.getValue(Votes.class);
+
+                    String wordKey = data.getKey();
+                    // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
+                    HashMap<String, String> wordMap = new HashMap<>();
+
+                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
+                    if(vote.UserID.equals(userID)) {
+                        if(data.getKey().equals(vote.WordID))
+                        {
+                            alreadyVote = true;
+                        }
+                    }
+                    Log.v("E_VALUE", alreadyVote.toString());
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                // loop through database
+                for (DataSnapshot data: dataSnapshot.getChildren()) {
+                    // make new instance of the word class to work with the variables
+                    Votes vote = data.getValue(Votes.class);
+
+                    String wordKey = data.getKey();
+                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
+                    if(vote.UserID.equals(userID)) {
+                        if(data.getKey().equals(vote.WordID))
+                        {
+                            alreadyVote = true;
+                        }
+                    }
+
+                    Log.v("E_VALUE", alreadyVote.toString());
+                }
+                // add the lastAdded word in the list named listItems that expects a hashmap
+                listItems.add(newWord);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        ref.addChildEventListener(getItems);
     }
 
     @Override
