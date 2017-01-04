@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SimpleAdapter;
@@ -28,6 +30,8 @@ public class WordDetailActivity extends AppCompatActivity {
     //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
     private List<HashMap<String, String>> listItems = new ArrayList<>();
     private HashMap<String, String> newWord = new HashMap<>();
+
+    private ShareActionProvider mShareActionProvider;
 
     // SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
     // private String userID = userSettings.getString("UserName", "");
@@ -131,12 +135,44 @@ public class WordDetailActivity extends AppCompatActivity {
         ref.addChildEventListener(getItems);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_activity_word_detail, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
+        /*if (menuItem.getItemId() == android.R.id.home) {
             this.finish();
+        }*/
+
+        int id = menuItem.getItemId();
+
+        //Checken op welk element de gebruiker geklikt heeft in de menutab
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+
+            case R.id.action_share:
+                // De gebruiker heeft op share geklikt
+                TextView frenchWord = (TextView) findViewById(R.id.detail_word_french);
+                TextView dutchWord = (TextView) findViewById(R.id.detail_word_dutch);
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, frenchWord.getText().toString() + " betekent " + dutchWord.getText().toString() + " - vanuit TranslateApp");
+                startActivity(Intent.createChooser(shareIntent, "Deel woord via:"));
+
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(menuItem);
+
         }
-        return super.onOptionsItemSelected(menuItem);
     }
 
 

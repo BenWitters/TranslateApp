@@ -1,5 +1,6 @@
 package android.translateapp;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("userID", "1");
         editor.commit();
 */
-
         setContentView(R.layout.activity_main);
     }
 }
