@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,13 +30,10 @@ public class WordDetailActivity extends AppCompatActivity {
     private List<HashMap<String, String>> listItems = new ArrayList<>();
     private HashMap<String, String> newWord = new HashMap<>();
 
-    private ShareActionProvider mShareActionProvider;
 
-    // SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-    // private String userID = userSettings.getString("UserName", "");
-    private String userID = "1";
+
     private Boolean alreadyVote = false;
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_detail);
@@ -56,83 +52,44 @@ public class WordDetailActivity extends AppCompatActivity {
         // receive data
         String french = i.getExtras().getString("FRENCH_WORD");
         String dutch = i.getExtras().getString("DUTCH_WORD");
-        String wordkey = i.getExtras().getString("WORDKEY");
+        final String wordkey = i.getExtras().getString("WORDKEY");
 
         //set the text of the textview equal to the item that was clicked
         frenchWord.setText(french);
         dutchWord.setText(dutch);
         wordKey.setText(wordkey);
-
-
-        // database connection
+        SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        final String userID = userSettings.getString("UserName", "");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
-
-        // get data from database
-        ChildEventListener getItems = new ChildEventListener() {
+        // database connection
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                // loop through database
-                for (DataSnapshot data: dataSnapshot.getChildren()) {
-                    // make new instance of the word class to work with the variables
-                    Votes vote = data.getValue(Votes.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.v("TRANSLATE","New value detected, snapshot children: " + Long.toString(dataSnapshot.child("words").getChildrenCount()) );
 
-                    String wordKey = data.getKey();
-                    // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
-                    HashMap<String, String> wordMap = new HashMap<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.child("votes").getChildren()) {
+                    List<String> listSubWords = new ArrayList<String>();
+                    //Getting the data from snapshot
+                    Votes votes = postSnapshot.getValue(Votes.class);
 
-                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
-                    if(vote.UserID.equals(userID)) {
-                        if(data.getKey().equals(vote.WordID))
-                        {
-                            alreadyVote = true;
-                        }
-                    }
-                    Log.v("E_VALUE", alreadyVote.toString());
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                // loop through database
-                for (DataSnapshot data: dataSnapshot.getChildren()) {
-                    // make new instance of the word class to work with the variables
-                    Votes vote = data.getValue(Votes.class);
-
-                    String wordKey = data.getKey();
-                    // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
-                    if(vote.UserID.equals(userID)) {
-                        if(data.getKey().equals(vote.WordID))
+                    if(votes.UserID.equals(userID)){
+                        if(votes.WordID.equals(wordkey))
                         {
                             alreadyVote = true;
                         }
                     }
 
-                    Log.v("E_VALUE", alreadyVote.toString());
                 }
-                // add the lastAdded word in the list named listItems that expects a hashmap
-                listItems.add(newWord);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
 
             }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-
-
-            }
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                System.out.println("The read failed: " + databaseError.getMessage());
             }
-        };
-        ref.addChildEventListener(getItems);
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -199,13 +156,17 @@ public class WordDetailActivity extends AppCompatActivity {
             //Klasse woord aanmaken
             Votes vote = new Votes(userID, wordKey);
 
+        if(alreadyVote == false) {
             //Woord toevoegen aan de database
             ref.child("votes").push().setValue(vote);
 
             Toast.makeText(this, "Stem uitgebracht!", Toast.LENGTH_SHORT).show();
 
-
-
+        }
+    else
+        {
+            Toast.makeText(this, "Reeds gestemd!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClick(View v) {

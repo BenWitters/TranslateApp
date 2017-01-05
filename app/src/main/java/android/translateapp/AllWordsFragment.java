@@ -60,12 +60,15 @@ public class AllWordsFragment extends Fragment {
                     HashMap<String, String> wordMap = new HashMap<>();
 
                     // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
-                    wordMap.put("French", word.FrenchWord);
-                    wordMap.put("Dutch", word.DutchWord);
-                    wordMap.put("WordKey", wordKey);
+                    if (word.FrenchWord != null)
+                    {
+                        wordMap.put("French", word.FrenchWord);
+                        wordMap.put("Dutch", word.DutchWord);
+                        wordMap.put("WordKey", wordKey);
 
-                    // add the wordMap in the list named listItems that expects a hashmap
-                    listItems.add(wordMap);
+                        // add the wordMap in the list named listItems that expects a hashmap
+                        listItems.add(wordMap);
+                    }
                    }
                 // A new word has been added, add it to the displayed list
                 simpleAdapter.notifyDataSetChanged();

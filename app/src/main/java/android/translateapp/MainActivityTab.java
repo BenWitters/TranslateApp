@@ -46,6 +46,11 @@ public class MainActivityTab extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = userSettings.edit();
+        prefEditor.putString("UserName", "1");
+        prefEditor.putBoolean("Notifications", true);
+        prefEditor.apply();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
@@ -64,7 +69,7 @@ public class MainActivityTab extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
-        //DAMON LOOP
+
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
