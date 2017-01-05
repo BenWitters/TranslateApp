@@ -90,7 +90,6 @@ public class MyWordsFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                listItems.clear();
                 newWord.clear();
                 // loop through database
                 for (DataSnapshot data: dataSnapshot.getChildren()) {
