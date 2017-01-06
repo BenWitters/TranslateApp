@@ -75,9 +75,10 @@ public class AddwordActivity extends AppCompatActivity {
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
             userID = userSettings.getString("UserName", "");
+            Integer countWords = 0;
 
             //Klasse woord aanmaken
-            Words oneWord = new Words(sNederlands, sFrans, userID);
+            Words oneWord = new Words(sNederlands, sFrans, userID, countWords);
 
             //Woord toevoegen aan de database
             ref.child("words").push().setValue(oneWord);

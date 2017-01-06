@@ -2,8 +2,8 @@ package android.translateapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +23,7 @@ import java.util.List;
 
 import ben.translateapp.R;
 
-public class WordDetailActivity extends AppCompatActivity {
+public class WordDetailTopActivity extends AppCompatActivity {
 
     //arraylist with nested hashmap with a key-value pair with 2 strings (each item has 2 keys en 2values: key & value nl en key & value fr)
     private List<HashMap<String, String>> listItems = new ArrayList<>();
@@ -35,7 +34,7 @@ public class WordDetailActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word_detail);
+        setContentView(R.layout.activity_word_detailtop);
 
 
         Intent i = this.getIntent();
@@ -118,7 +117,7 @@ public class WordDetailActivity extends AppCompatActivity {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, frenchWord.getText().toString() + " betekent " + dutchWord.getText().toString() + " - vanuit TranslateApp");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, frenchWord.getText().toString() + " betekent " + dutchWord.getText().toString() + " - vanuit TranslateApp");
                 startActivity(Intent.createChooser(shareIntent, "Deel woord via:"));
 
                 return true;
@@ -131,66 +130,4 @@ public class WordDetailActivity extends AppCompatActivity {
         }
     }
 
-
-    public void vote() {
-        SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-
-        String userID;
-
-
-        TextView mWordKey;
-        final String wordKey;
-
-        //Variabelen ophalen van de textviews
-        mWordKey = (TextView)findViewById(R.id.detail_word_id);
-        wordKey = mWordKey.getText().toString();
-
-
-            //Connectie maken met de FirebaseDatabase
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-          final  DatabaseReference ref = database.getReference();
-
-            userID = userSettings.getString("UserName", "");
-
-            //Klasse woord aanmaken
-            Votes vote = new Votes(userID, wordKey);
-
-        if(alreadyVote == false) {
-
-            ref.child("words").orderByKey().equalTo(wordKey).addListenerForSingleValueEvent(new ValueEventListener() {
-
-                public void onDataChange(DataSnapshot rsvpSnapshot) {
-                    for (DataSnapshot snapshot: rsvpSnapshot.getChildren()) {
-                        int Countwords = snapshot.child("Countwords").getValue(Integer.class);
-
-                        Countwords = Countwords + 1;
-
-                        ref.child("words").child(wordKey).child("Countwords").setValue(Countwords);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-
-          //  ref.child("words").push().setValue()
-
-            //Vote toevoegen aan de database
-            ref.child("votes").push().setValue(vote);
-
-            Toast.makeText(this, "Stem uitgebracht!", Toast.LENGTH_SHORT).show();
-
-        }
-    else
-        {
-            Toast.makeText(this, "Reeds gestemd!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void onClick(View v) {
-        vote();
-    }
 }

@@ -147,6 +147,7 @@ public class AllWordsFragment extends Fragment {
                 i.putExtra("FRENCH_WORD", fr);
                 i.putExtra("DUTCH_WORD", nl);
                 i.putExtra("WORDKEY", wordKey);
+                i.putExtra("COUNTWORDS", word.Countwords);
 
                 // start detail activity
                 startActivity(i);
