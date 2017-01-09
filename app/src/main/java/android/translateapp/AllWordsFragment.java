@@ -1,9 +1,12 @@
 package android.translateapp;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,13 +44,15 @@ public class AllWordsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+       final SharedPreferences userSettings = this.getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         // database connection
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
         // get data from database
         ChildEventListener getItems = new ChildEventListener() {
+
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 // loop through database
@@ -88,6 +93,15 @@ public class AllWordsFragment extends Fragment {
                     newWord.put("Dutch", word.DutchWord);
                     newWord.put("WordKey", wordKey);
 
+                     if(userSettings.getBoolean("Notifications", true) == true) {
+                        NotificationCompat.Builder builder =
+                                new NotificationCompat.Builder(getContext())
+                                        .setSmallIcon(R.drawable.logo)
+                                        .setContentTitle("TranslateApp zegt:")
+                                        .setContentText("Het woord " + word.FrenchWord + " werd aan de lijst toegevoegd!");
+                         NotificationManager manager = ( NotificationManager ) getActivity().getSystemService( getActivity().NOTIFICATION_SERVICE );
+                        manager.notify(0, builder.build());
+                    }
 
                 }
                 // add the lastAdded word in the list named listItems that expects a hashmap

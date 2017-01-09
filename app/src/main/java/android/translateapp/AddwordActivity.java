@@ -72,15 +72,7 @@ public class AddwordActivity extends AppCompatActivity {
         sFrans = mFrans.getText().toString();
 
 
-if(userSettings.getBoolean("Notifications", true) == true) {
-    NotificationCompat.Builder builder =
-            new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.logo)
-                    .setContentTitle("TranslateApp zegt:")
-                    .setContentText("Het woord " + sFrans + " werd aan de lijst toegevoegd!");
-    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    manager.notify(0, builder.build());
-}
+
 
         //Geklikt op add Word button
 
