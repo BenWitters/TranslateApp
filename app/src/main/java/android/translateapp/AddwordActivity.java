@@ -1,7 +1,10 @@
 package android.translateapp;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -53,7 +56,7 @@ public class AddwordActivity extends AppCompatActivity {
     public void addWord() {
         SharedPreferences userSettings = getSharedPreferences("UserPreferences", MODE_PRIVATE);
 
-        //Geklikt op add Word button
+
 
         TextView mNederlands;
         TextView mFrans;
@@ -67,6 +70,21 @@ public class AddwordActivity extends AppCompatActivity {
 
         sNederlands = mNederlands.getText().toString();
         sFrans = mFrans.getText().toString();
+
+
+if(userSettings.getBoolean("Notifications", true) == true) {
+    NotificationCompat.Builder builder =
+            new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.logo)
+                    .setContentTitle("TranslateApp zegt:")
+                    .setContentText("Het woord " + sFrans + " werd aan de lijst toegevoegd!");
+    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    manager.notify(0, builder.build());
+}
+
+        //Geklikt op add Word button
+
+
 
         if(!empty(sNederlands) && !empty(sFrans)){
             //Connectie maken met de FirebaseDatabase
