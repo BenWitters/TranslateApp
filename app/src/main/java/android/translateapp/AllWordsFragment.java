@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -96,6 +97,7 @@ public class AllWordsFragment extends Fragment {
                     if(userSettings.getBoolean("Notifications", true) == true) {
                         NotificationCompat.Builder builder =
                                 new NotificationCompat.Builder(getContext())
+                                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
                                         .setSmallIcon(R.drawable.logo)
                                         .setContentTitle("TranslateApp zegt:")
                                         .setContentText("Het woord " + word.FrenchWord + " werd aan de lijst toegevoegd!");
