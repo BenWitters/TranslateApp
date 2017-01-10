@@ -90,26 +90,30 @@ public class MyWordsFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                listItems.clear();
                 newWord.clear();
                 // loop through database
                 for (DataSnapshot data: dataSnapshot.getChildren()) {
                     // make new instance of the word class to work with the variables
                     Words word = data.getValue(Words.class);
-
                     String wordKey = data.getKey();
-
-
+                    // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
+                    HashMap<String, String> wordMap = new HashMap<>();
+                    //  String userID = userSettings.getString("UserName", "");
                     // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
-                    if(word.UserID.equals(userID)) {
-                        newWord.put("French", word.FrenchWord);
-                        newWord.put("Dutch", word.DutchWord);
-                        newWord.put("WordKey", wordKey);
+
+                    if(word.UserID.equals(userID))
+                    {
+                        wordMap.put("French", word.FrenchWord);
+                        wordMap.put("Dutch", word.DutchWord);
+                        wordMap.put("WordKey", wordKey);
+                        listItems.add(wordMap);
                     }
 
-                }
-                // add the lastAdded word in the list named listItems that expects a hashmap
-                listItems.add(newWord);
+                    // add the wordMap in the list named listItems that expects a hashmap
 
+
+                }
                 // A new word has been added, add it to the displayed list
                 simpleAdapter.notifyDataSetChanged();
             }
