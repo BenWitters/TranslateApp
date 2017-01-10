@@ -99,17 +99,15 @@ public class WordDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        /*if (menuItem.getItemId() == android.R.id.home) {
-            this.finish();
-        }*/
 
         int id = menuItem.getItemId();
 
         //Checken op welk element de gebruiker geklikt heeft in de menutab
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-                this.finish();
 
+                this.finish();
+return false;
             case R.id.action_share:
                 // De gebruiker heeft op share geklikt
                 TextView frenchWord = (TextView) findViewById(R.id.detail_word_french);

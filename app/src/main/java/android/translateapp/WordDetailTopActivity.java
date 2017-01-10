@@ -108,7 +108,7 @@ public class WordDetailTopActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 this.finish();
-
+                return false;
             case R.id.action_share:
                 // De gebruiker heeft op share geklikt
                 TextView frenchWord = (TextView) findViewById(R.id.detail_word_french);

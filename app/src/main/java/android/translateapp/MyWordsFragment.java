@@ -68,7 +68,6 @@ public class MyWordsFragment extends Fragment {
             String wordKey = data.getKey();
                     // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
                     HashMap<String, String> wordMap = new HashMap<>();
-                  //  String userID = userSettings.getString("UserName", "");
                     // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
 
                     if(word.UserID.equals(userID))
@@ -99,7 +98,6 @@ public class MyWordsFragment extends Fragment {
                     String wordKey = data.getKey();
                     // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
                     HashMap<String, String> wordMap = new HashMap<>();
-                    //  String userID = userSettings.getString("UserName", "");
                     // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
 
                     if(word.UserID.equals(userID))

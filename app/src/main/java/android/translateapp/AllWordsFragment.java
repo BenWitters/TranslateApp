@@ -88,36 +88,27 @@ public class AllWordsFragment extends Fragment {
                     Words word = data.getValue(Words.class);
 
                     String wordKey = data.getKey();
-                    // make a new hashmap to put in the key(these keys we use in the simpleAdapter) and values(words from the database)
-                    HashMap<String, String> wordMap = new HashMap<>();
-
                     // get the french and the dutchword per item (key, value) and put them in the HashMap named wordMap
-                    if (word.FrenchWord != null)
-                    {
-                        wordMap.put("French", word.FrenchWord);
-                        wordMap.put("Dutch", word.DutchWord);
-                        wordMap.put("WordKey", wordKey);
+                    newWord.put("French", word.FrenchWord);
+                    newWord.put("Dutch", word.DutchWord);
+                    newWord.put("WordKey", wordKey);
 
-                        // add the wordMap in the list named listItems that expects a hashmap
-                        listItems.add(wordMap);
-
-                        if(userSettings.getBoolean("Notifications", true) == true) {
-                            NotificationCompat.Builder builder =
-                                    new NotificationCompat.Builder(getContext())
-                                            .setSmallIcon(R.drawable.logo)
-                                            .setContentTitle("TranslateApp zegt:")
-                                            .setContentText("Het woord " + word.FrenchWord + " werd aan de lijst toegevoegd!");
-                            NotificationManager manager = ( NotificationManager ) getActivity().getSystemService( getActivity().NOTIFICATION_SERVICE );
-                            manager.notify(0, builder.build());
-                        }
+                    if(userSettings.getBoolean("Notifications", true) == true) {
+                        NotificationCompat.Builder builder =
+                                new NotificationCompat.Builder(getContext())
+                                        .setSmallIcon(R.drawable.logo)
+                                        .setContentTitle("TranslateApp zegt:")
+                                        .setContentText("Het woord " + word.FrenchWord + " werd aan de lijst toegevoegd!");
+                        NotificationManager manager = ( NotificationManager ) getActivity().getSystemService( getActivity().NOTIFICATION_SERVICE );
+                        manager.notify(0, builder.build());
                     }
+
                 }
+                // add the lastAdded word in the list named listItems that expects a hashmap
+                listItems.add(newWord);
+
                 // A new word has been added, add it to the displayed list
                 simpleAdapter.notifyDataSetChanged();
-
-
-
-
             }
 
             @Override

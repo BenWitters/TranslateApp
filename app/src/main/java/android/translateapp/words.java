@@ -1,8 +1,6 @@
 package android.translateapp;
 
-/**
- * Created by yaron on 18/12/16.
- */
+
 
 class Words {
     public String DutchWord;
