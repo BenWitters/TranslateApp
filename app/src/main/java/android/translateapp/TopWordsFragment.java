@@ -45,7 +45,7 @@ public class TopWordsFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference();
-        ref.child("words").orderByChild("Countwords").limitToLast(3).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("words").orderByChild("Countwords").limitToLast(6).addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot rsvpSnapshot) {
                 listItems.clear();
                 newWord.clear();
